@@ -1,9 +1,9 @@
-const icloud = require("apple-icloud");
+const icloud = require("./iCloud-API/main");
 const prompt = require("prompt");
 
 const handle2FA = async mycloud => {
   if (mycloud.twoFactorAuthenticationIsRequired) {
-    prompt.get(["security code"], async function(err, input) {
+    prompt.get(["security code"], async function (err, input) {
       if (err) return console.error(err);
 
       mycloud.securityCode = input["security code"];
@@ -17,16 +17,16 @@ const handle2FA = async mycloud => {
 const session_file = "./session.json";
 
 module.exports = function login() {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     prompt.start();
 
     const mycloud = new icloud(session_file);
 
-    mycloud.on("ready", async function() {
+    mycloud.on("ready", async function () {
       if (await handle2FA(mycloud)) resolve(mycloud);
     });
 
-    mycloud.on("err", async function(err) {
+    mycloud.on("err", async function (err) {
       if (err.errorCode == 6) {
         console.error("Session expired or not valid");
       } else if (err.errorCode == 7) {
@@ -47,8 +47,9 @@ module.exports = function login() {
               }
             }
           },
-          function(err, input) {
+          function (err, input) {
             if (err) return console.error(err);
+
             // This creates your iCloud instance
             var myCloud = new icloud(
               session_file,
@@ -56,14 +57,14 @@ module.exports = function login() {
               input.password
             );
 
-            myCloud.on("ready", async function() {
+            myCloud.on("ready", async function () {
               const isAutheticated = await handle2FA(myCloud);
               if (isAutheticated) {
                 resolve(myCloud);
               }
             });
 
-            myCloud.on("sessionUpdate", function() {
+            myCloud.on("sessionUpdate", function () {
               myCloud.saveSession();
             });
           }

@@ -1,10 +1,27 @@
 const prompt = require("./prompt-credentials");
 
-(async () => {
-  const cloud = await prompt();
+const addContacts = async contacts => {
+  const cloud = await prompt()
 
-  console.log("Getting contacts");
+  await cloud.Contacts.list()
 
-  const contacts = await cloud.Contacts.list();
-  console.log(contacts);
-})();
+  try {
+    contacts.map(async ({ name, phone }) => {
+      await cloud.Contacts.new({
+        firstName: name,
+        phones: [{
+          label: "mobile",
+          field: phone
+        }]
+      })
+
+      console.debug(`User ${phone} added`)
+    })
+  }
+  catch (e) {
+    console.error(e)
+  }
+};
+
+
+module.exports = addContacts

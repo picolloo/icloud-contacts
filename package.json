@@ -4,14 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node contacts.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apple-icloud": "^1.0.0",
+    "cookie": "^0.4.0",
     "csv": "^5.1.1",
-    "prompt": "^1.0.0"
+    "csv-parse": "^4.4.3",
+    "prompt": "^1.0.0",
+    "request": "^2.88.0"
   }
 }

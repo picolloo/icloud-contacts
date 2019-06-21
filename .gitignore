@@ -3,3 +3,5 @@ node_modules/
 .vscode/
 .gitignore~
 session.json
+package-lock.json
+data/
